@@ -1,3 +1,28 @@
+
+"""
+DECORATOR DESIGN PATTERN
+=========================
+Problem (from the doc):
+    Customers want to layer on OPTIONAL, COMBINABLE customizations:
+        - Gift wrap the order (or a single product)
+        - Extended warranty (electronics only, not clothes)
+        - Personalization (e.g. name engraving)
+ 
+    If you try to model this with inheritance:
+        LongSleevesTshirtWithGiftWrap
+        LongSleevesTshirtWithGiftWrapAndPersonalization
+        TVWithWarranty
+        TVWithWarrantyAndEngraving
+        ...
+    -> class explosion. Every NEW combination needs a NEW class.
+ 
+Fix:
+    Wrap the base object in decorator layers at runtime. Each decorator
+    IS a Product (same interface) and ALSO HOLDS a Product -- so you can
+    stack decorators in any order/combination without ever writing a new
+    class for a new combination.
+"""
+ 
 from abc import ABC,abstractmethod
 
 class Product(ABC):

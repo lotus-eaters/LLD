@@ -1,3 +1,25 @@
+"""
+FACTORY DESIGN PATTERN
+=======================
+Problem (from the doc):
+    CheckoutService.pay(paymentType) turns into a giant if/else ladder:
+        if paymentType == 'CARD': payViaCard(...)
+        elif paymentType == 'NETBANKING': payViaNB(...)
+        elif ... (grows forever)
+    -> violates Open/Closed Principle, tightly couples CheckoutService
+       to every concrete payment implementation.
+ 
+Fix:
+    CheckoutService only depends on an abstract `Payment` type.
+    A `PaymentFactory` keeps a REGISTRY (map) of PaymentType -> constructor,
+    so adding a new payment method never touches CheckoutService or the
+    factory's core logic -- you just register a new class.
+ 
+Java used `Class.forName(...)` to force static-block registration.
+Python doesn't need that trick: importing the module runs its top-level
+code, which is where each class registers itself. We do the same thing,
+just via normal imports instead of reflection.
+""" 
 from abc import ABC, abstractmethod
 from typing import Dict,Callable
 from enum import Enum,auto
@@ -51,6 +73,3 @@ if __name__=="__main__":
 	credit.pay(2000)
 	upi=PaymentFactory.create(PaymentType.UPI)
 	upi.pay(500)
-
-
-

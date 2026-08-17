@@ -1,3 +1,23 @@
+"""
+SINGLETON DESIGN PATTERN
+========================
+Problem (from the doc):
+    CheckoutService, RefundService, SubscriptionService each did:
+        PaymentGateway pg = new PaymentGateway()
+    -> 3 different objects, 3 different configs, wasted memory.
+ 
+Fix:
+    Exactly ONE shared PaymentGateway instance, created lazily,
+    and safe to create under concurrent access (multiple threads
+    hitting getPaymentGatewayInstance() at the same time).
+ 
+Java used "double-checked locking" with `volatile` + `synchronized`.
+Python has no `volatile` keyword and the GIL protects simple bytecode
+ops, but the *check-then-act* race (two threads both seeing None)
+is still real -> we still need a real lock, done correctly below.
+"""
+ 
+
 import threading
 
 class PaymentGateway:

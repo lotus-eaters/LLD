@@ -1,3 +1,31 @@
+
+"""
+ADAPTER DESIGN PATTERN
+=======================
+Problem (from the doc):
+    Your system expects a uniform contract:
+        pay(amount)
+    But every real provider SDK has its own incompatible method name:
+        phonePe.makePayment()
+        paytm.paytmKaro()
+        paypal.sendPayment()
+ 
+    You can't change the provider SDKs (they're third-party / legacy),
+    and you don't want CheckoutService branching on "which provider is this".
+ 
+Fix:
+    Wrap each incompatible SDK behind an Adapter that implements YOUR
+    common `PaymentProcessor` interface. CheckoutService only ever talks
+    to `PaymentProcessor` -- it has no idea Paytm's real method is
+    called `paytm_karo()`.
+ 
+Note: the doc's Paytm class is ALSO a Singleton (it has its own
+getPaytmInstance() with double-checked locking) -- so this demo
+deliberately combines Adapter + Singleton, which is common in real
+integrations: "the SDK client is a shared singleton resource, and I
+adapt its quirky interface to my own contract."
+"""
+
 from abc import ABC,abstractmethod
 import threading
 
